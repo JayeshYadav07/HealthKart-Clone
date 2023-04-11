@@ -18,7 +18,7 @@ var toastMixin = Swal.mixin({
 });
 
 function showCartCount() {
-    fetch("http://localhost:8080/users/cart", {
+    fetch("https://wild-gold-calf-robe.cyclic.app/users/cart", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -70,7 +70,7 @@ function signupUser() {
         password: obj[2].value,
     };
 
-    fetch("http://localhost:8080/users/register", {
+    fetch("https://wild-gold-calf-robe.cyclic.app/users/register", {
         method: "POST",
         headers: {
             "Content-type": "application/json",
@@ -100,7 +100,7 @@ function loginUser(e) {
         password: obj[1].value,
     };
     if (payload.email !== "" && payload.password !== "") {
-        fetch("http://localhost:8080/users/login", {
+        fetch("https://wild-gold-calf-robe.cyclic.app/users/login", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -153,7 +153,7 @@ function logoutUser() {
 async function addToCart(e) {
     const productId = e.getAttribute("data-id");
     await fetch(
-        `http://localhost:8080/users/addToCart?productId=${productId}`,
+        `https://wild-gold-calf-robe.cyclic.app/users/addToCart?productId=${productId}`,
         {
             method: "GET",
             headers: {

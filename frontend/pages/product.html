@@ -413,7 +413,7 @@
     });
 
     function showCartCount() {
-        fetch("http://localhost:8080/users/cart", {
+        fetch("https://wild-gold-calf-robe.cyclic.app/users/cart", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -465,7 +465,7 @@
             password: obj[2].value,
         };
 
-        fetch("http://localhost:8080/users/register", {
+        fetch("https://wild-gold-calf-robe.cyclic.app/users/register", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -495,7 +495,7 @@
             password: obj[1].value,
         };
         if (payload.email !== "" && payload.password !== "") {
-            fetch("http://localhost:8080/users/login", {
+            fetch("https://wild-gold-calf-robe.cyclic.app/users/login", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json",
@@ -548,7 +548,7 @@
     async function addToCart(e) {
         const productId = e.getAttribute("data-id");
         await fetch(
-            `http://localhost:8080/users/addToCart?productId=${productId}`,
+            `https://wild-gold-calf-robe.cyclic.app/users/addToCart?productId=${productId}`,
             {
                 method: "GET",
                 headers: {
@@ -620,7 +620,7 @@
             let productFlexBox = document.querySelector("#productFlexBox");
             let arr = [];
             await fetch(
-                `http://localhost:8080/products/getLowToHigh/${count}`,
+                `https://wild-gold-calf-robe.cyclic.app/products/getLowToHigh/${count}`,
                 {
                     method: "GET",
                     headers: {
@@ -639,7 +639,7 @@
         } else {
             let productFlexBox = document.querySelector("#productFlexBox");
             let arr = [];
-            await fetch(`http://localhost:8080/products/get/${count}`, {
+            await fetch(`https://wild-gold-calf-robe.cyclic.app/products/get/${count}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -660,7 +660,7 @@
             let productFlexBox = document.querySelector("#productFlexBox");
             let arr = [];
             await fetch(
-                `http://localhost:8080/products/getHighToLow/${count}`,
+                `https://wild-gold-calf-robe.cyclic.app/products/getHighToLow/${count}`,
                 {
                     method: "GET",
                     headers: {
@@ -679,7 +679,7 @@
         } else {
             let productFlexBox = document.querySelector("#productFlexBox");
             let arr = [];
-            await fetch(`http://localhost:8080/products/get/${count}`, {
+            await fetch(`https://wild-gold-calf-robe.cyclic.app/products/get/${count}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -729,7 +729,7 @@
     async function showProducts(count) {
         let productFlexBox = document.querySelector("#productFlexBox");
         let arr = [];
-        await fetch(`http://localhost:8080/products/get/${count}`, {
+        await fetch(`https://wild-gold-calf-robe.cyclic.app/products/get/${count}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -30,7 +30,7 @@ function createCard(obj) {
 async function priceSlashShow() {
     let priceSlashBox = document.querySelector("#priceSlashBox");
     let arr = [];
-    await fetch("http://localhost:8080/products/priceSlash", {
+    await fetch("https://wild-gold-calf-robe.cyclic.app/products/priceSlash", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -48,7 +48,7 @@ priceSlashShow();
 async function topDeals() {
     let top_deals = document.querySelector("#top_deals");
     let arr = [];
-    await fetch("http://localhost:8080/products/pickDay", {
+    await fetch("https://wild-gold-calf-robe.cyclic.app/products/pickDay", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -66,7 +66,7 @@ topDeals();
 async function pickDayshow() {
     let pick_of_the_day = document.querySelector("#pick_of_the_day");
     let arr = [];
-    await fetch("http://localhost:8080/products/topDeals", {
+    await fetch("https://wild-gold-calf-robe.cyclic.app/products/topDeals", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

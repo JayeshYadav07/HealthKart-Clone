@@ -350,7 +350,7 @@
     }
     async function showCartProducts() {
         let arr = [];
-        await fetch("http://localhost:8080/users/cart", {
+        await fetch("https://wild-gold-calf-robe.cyclic.app/users/cart", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -381,7 +381,7 @@
     async function removeCartItem(e) {
         const id = e.getAttribute("data");
         console.log(id);
-        await fetch(`http://localhost:8080/users/deleteItem/${id}`, {
+        await fetch(`https://wild-gold-calf-robe.cyclic.app/users/deleteItem/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",
@@ -401,7 +401,7 @@
 
     function increaseQty(e) {
         const id = e.getAttribute("data");
-        fetch(`http://localhost:8080/users/incrementQty/${id}`, {
+        fetch(`https://wild-gold-calf-robe.cyclic.app/users/incrementQty/${id}`, {
             method: "PUT",
             headers: {
                 "Content-type": "application/json",
@@ -424,7 +424,7 @@
         const id = e.getAttribute("data");
         const val = document.getElementById(id).innerText;
         if (val > 1) {
-            fetch(`http://localhost:8080/users/decrementQty/${id}`, {
+            fetch(`https://wild-gold-calf-robe.cyclic.app/users/decrementQty/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json",
@@ -440,7 +440,7 @@
     async function paymentBtn(e) {
         if (e.target.innerText.split("\n")[1] > 0) {
             window.location.href = "./payment.html";
-            await fetch("http://localhost:8080/users/deleteAll", {
+            await fetch("https://wild-gold-calf-robe.cyclic.app/users/deleteAll", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
