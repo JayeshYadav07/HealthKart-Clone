@@ -439,7 +439,6 @@
     }
     async function paymentBtn(e) {
         if (e.target.innerText.split("\n")[1] > 0) {
-            window.location.href = "./payment.html";
             await fetch(
                 "https://wild-gold-calf-robe.cyclic.app/users/deleteAll",
                 {
@@ -450,6 +449,8 @@
                     },
                 }
             );
+            localStorage.setItem("cart", JSON.stringify([]));
+            window.location.href = "./payment.html";
         } else if (localStorage.getItem("token") == null) {
             toastMixin.fire({
                 title: "Login First",
