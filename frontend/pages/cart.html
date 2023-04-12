@@ -378,7 +378,7 @@
         });
         localStorage.setItem("cart", JSON.stringify(filterdData));
         showCartProducts();
-        fetch(`http://localhost:8080/users/deleteItem/${id}`, {
+        fetch(`https://wild-gold-calf-robe.cyclic.app/users/deleteItem/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",
@@ -399,13 +399,16 @@
         });
         localStorage.setItem("cart", JSON.stringify(data));
         showCartProducts();
-        fetch(`http://localhost:8080/users/incrementQty/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-type": "application/json",
-                Authorization: localStorage.getItem("token"),
-            },
-        });
+        fetch(
+            `https://wild-gold-calf-robe.cyclic.app/users/incrementQty/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: localStorage.getItem("token"),
+                },
+            }
+        );
     }
 
     function decreaseQty(e) {
@@ -422,25 +425,31 @@
         localStorage.setItem("cart", JSON.stringify(data));
         showCartProducts();
         if (val > 1) {
-            fetch(`http://localhost:8080/users/decrementQty/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-type": "application/json",
-                    Authorization: localStorage.getItem("token"),
-                },
-            });
+            fetch(
+                `https://wild-gold-calf-robe.cyclic.app/users/decrementQty/${id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: localStorage.getItem("token"),
+                    },
+                }
+            );
         }
     }
     async function paymentBtn(e) {
         if (e.target.innerText.split("\n")[1] > 0) {
             window.location.href = "./payment.html";
-            await fetch("http://localhost:8080/users/deleteAll", {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: localStorage.getItem("token"),
-                },
-            });
+            await fetch(
+                "https://wild-gold-calf-robe.cyclic.app/users/deleteAll",
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: localStorage.getItem("token"),
+                    },
+                }
+            );
         } else if (localStorage.getItem("token") == null) {
             toastMixin.fire({
                 title: "Login First",

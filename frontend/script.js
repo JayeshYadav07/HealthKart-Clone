@@ -285,7 +285,7 @@ function signupUser(e) {
         password: obj[2].value,
     };
     if (payload.name && payload.email && payload.password) {
-        fetch("http://localhost:8080/users/register", {
+        fetch("https://wild-gold-calf-robe.cyclic.app/users/register", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -316,7 +316,7 @@ function loginUser(e) {
         password: obj[1].value,
     };
     if (payload.email !== "" && payload.password !== "") {
-        fetch("http://localhost:8080/users/login", {
+        fetch("https://wild-gold-calf-robe.cyclic.app/users/login", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -371,13 +371,16 @@ function logoutUser() {
 //add to cart done
 function addToCart(e) {
     const productId = e.getAttribute("data-id");
-    fetch(`http://localhost:8080/users/addToCart?productId=${productId}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("token"),
-        },
-    })
+    fetch(
+        `https://wild-gold-calf-robe.cyclic.app/users/addToCart?productId=${productId}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: localStorage.getItem("token"),
+            },
+        }
+    )
         .then((response) => response.json())
         .then((response) => {
             if (response.msg === "Login First!") {
