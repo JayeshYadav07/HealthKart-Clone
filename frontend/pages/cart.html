@@ -292,7 +292,7 @@
 </html>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 <script>
-    var toastMixin = Swal.mixin({
+    let toastMixin = Swal.mixin({
         toast: true,
         icon: "success",
         title: "General Title",
@@ -307,7 +307,7 @@
     });
     function createCart(data) {
         return `
-            <div class="cartItem">
+            <div class="cartItem" id="${data._id}+parent">
                 <div class="cartItemImg">
                     <img
                         src="${data.image}"
@@ -334,7 +334,7 @@
                         >
                             -
                         </button>
-                        <span id="${data._id}" class="value">${data.qty}</span>
+                        <span id="${data._id}+qty" class="value">${data.qty}</span>
                         <button
                             class="increment"
                             data="${data._id}"
@@ -348,29 +348,18 @@
             </div>
         `;
     }
-    async function showCartProducts() {
-        let arr = [];
-        await fetch("https://wild-gold-calf-robe.cyclic.app/users/cart", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: localStorage.getItem("token"),
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                let cartBox = document.querySelector("#cartBox");
-                cartBox.innerHTML = null;
-                let sum = 0;
-                data.forEach((element) => {
-                    sum += element.price * element.qty;
-                    cartBox.innerHTML = cartBox.innerHTML + createCart(element);
-                    console.log(element);
-                });
-                let totalAmmount = document.querySelector("#totalAmmount");
-                totalAmmount.innerText = sum;
-            });
+    function showCartProducts() {
+        let data = JSON.parse(localStorage.getItem("cart")) || [];
+        let cartBox = document.querySelector("#cartBox");
+        cartBox.innerHTML = null;
+        let sum = 0;
+        data.forEach((element) => {
+            sum += element.discountedPrice * element.qty;
+            cartBox.innerHTML = cartBox.innerHTML + createCart(element);
+            console.log(element);
+        });
+        let totalAmmount = document.querySelector("#totalAmmount");
+        totalAmmount.innerText = sum;
     }
     if (localStorage.getItem("token") != null) {
         showCartProducts();
@@ -378,77 +367,80 @@
 
     // Delete items from cart
 
-    async function removeCartItem(e) {
+    function removeCartItem(e) {
         const id = e.getAttribute("data");
-        console.log(id);
-        await fetch(`https://wild-gold-calf-robe.cyclic.app/users/deleteItem/${id}`, {
+        const doc = document.getElementById(`${id}+parent`);
+        doc.remove();
+        let data = JSON.parse(localStorage.getItem("cart"));
+        let filterdData = data.filter((ele) => {
+            console.log(ele._id, id);
+            if (ele._id != id) return true;
+        });
+        localStorage.setItem("cart", JSON.stringify(filterdData));
+        showCartProducts();
+        fetch(`http://localhost:8080/users/deleteItem/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",
                 Authorization: localStorage.getItem("token"),
             },
-        })
-            .then((res) => res.json())
-            .then((res) => {
-                showCartProducts();
-            })
-            .catch((err) =>
-                console.log({ msg: "something went wwrong", err: err.message })
-            );
+        });
     }
 
     // // Increase Quantity   ------------!!!!!!!!!!!
 
     function increaseQty(e) {
         const id = e.getAttribute("data");
-        fetch(`https://wild-gold-calf-robe.cyclic.app/users/incrementQty/${id}`, {
+        let data = JSON.parse(localStorage.getItem("cart"));
+        data.map((ele) => {
+            if (ele._id == id) {
+                ele.qty += 1;
+            }
+        });
+        localStorage.setItem("cart", JSON.stringify(data));
+        showCartProducts();
+        fetch(`http://localhost:8080/users/incrementQty/${id}`, {
             method: "PUT",
             headers: {
                 "Content-type": "application/json",
                 Authorization: localStorage.getItem("token"),
             },
-        })
-            .then((res) => res.json())
-            .then((res) => {
-                showCartProducts();
-            })
-            .catch((error) => {
-                console.log({
-                    msg: "Something went wrong",
-                    error: error.message,
-                });
-            });
+        });
     }
 
     function decreaseQty(e) {
         const id = e.getAttribute("data");
-        const val = document.getElementById(id).innerText;
+        const quantity = document.getElementById(`${id}+qty`);
+        let val = Number(quantity.innerText);
+        val = val == 1 ? 1 : val - 1;
+        let data = JSON.parse(localStorage.getItem("cart"));
+        data.map((ele) => {
+            if (ele._id == id) {
+                ele.qty = val;
+            }
+        });
+        localStorage.setItem("cart", JSON.stringify(data));
+        showCartProducts();
         if (val > 1) {
-            fetch(`https://wild-gold-calf-robe.cyclic.app/users/decrementQty/${id}`, {
+            fetch(`http://localhost:8080/users/decrementQty/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json",
                     Authorization: localStorage.getItem("token"),
                 },
-            })
-                .then((res) => res.json())
-                .then((res) => {
-                    showCartProducts();
-                });
+            });
         }
     }
     async function paymentBtn(e) {
         if (e.target.innerText.split("\n")[1] > 0) {
             window.location.href = "./payment.html";
-            await fetch("https://wild-gold-calf-robe.cyclic.app/users/deleteAll", {
+            await fetch("http://localhost:8080/users/deleteAll", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: localStorage.getItem("token"),
                 },
-            })
-                .then((res) => res.json())
-                .then((data) => console.log(data));
+            });
         } else if (localStorage.getItem("token") == null) {
             toastMixin.fire({
                 title: "Login First",

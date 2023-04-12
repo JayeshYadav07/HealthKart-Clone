@@ -398,7 +398,7 @@
     const loginBtn = document.querySelector("label.login");
     const signupBtn = document.querySelector("label.signup");
     const signupLink = document.querySelector("form .signup-link a");
-    var toastMixin = Swal.mixin({
+    let toastMixin = Swal.mixin({
         toast: true,
         icon: "success",
         title: "General Title",
@@ -413,18 +413,9 @@
     });
 
     function showCartCount() {
-        fetch("https://wild-gold-calf-robe.cyclic.app/users/cart", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: localStorage.getItem("token"),
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                let cart_count = document.getElementById("cart_count");
-                cart_count.innerText = data.length;
-            });
+        let cart_count = document.getElementById("cart_count");
+        cart_count.innerText =
+            JSON.parse(localStorage.getItem("cart")).length || 0;
     }
     signupBtn.onclick = () => {
         loginForm.style.marginLeft = "-50%";
@@ -457,33 +448,35 @@
 
     // signup working fine
 
-    function signupUser() {
+    function signupUser(e) {
+        e.preventDefault();
         let obj = document.querySelectorAll(".signup input");
         const payload = {
             name: obj[0].value,
             email: obj[1].value,
             password: obj[2].value,
         };
-
-        fetch("https://wild-gold-calf-robe.cyclic.app/users/register", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json",
-            },
-            body: JSON.stringify(payload),
-        })
-            .then((res) => res.json())
-            .then((res) => {
-                toastMixin.fire({
-                    animation: true,
-                    title: res.msg,
-                });
-                obj[0].value = "";
-                obj[1].value = "";
-                obj[2].value = "";
-                hideLogin();
+        if (payload.name && payload.email && payload.password) {
+            fetch("http://localhost:8080/users/register", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify(payload),
             })
-            .catch((err) => alert("Something went wrong"));
+                .then((res) => res.json())
+                .then((res) => {
+                    toastMixin.fire({
+                        animation: true,
+                        title: res.msg,
+                    });
+                    obj[0].value = "";
+                    obj[1].value = "";
+                    obj[2].value = "";
+                    hideLogin();
+                })
+                .catch((err) => alert("Something went wrong"));
+        }
     }
     //login is also working fine but check once for setCart Count
     function loginUser(e) {
@@ -495,7 +488,7 @@
             password: obj[1].value,
         };
         if (payload.email !== "" && payload.password !== "") {
-            fetch("https://wild-gold-calf-robe.cyclic.app/users/login", {
+            fetch("http://localhost:8080/users/login", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json",
@@ -517,6 +510,10 @@
                             animation: true,
                             title: res.msg,
                         });
+                        localStorage.setItem(
+                            "cart",
+                            JSON.stringify(res.user.carts)
+                        );
                         showCartCount();
                         hideLogin();
                     } else {
@@ -526,8 +523,7 @@
                             title: "Wrong Credentials",
                         });
                     }
-                })
-                .catch((err) => alert("Wrong Credentials"));
+                });
         }
     }
 
@@ -545,18 +541,15 @@
     }
 
     //add to cart done
-    async function addToCart(e) {
+    function addToCart(e) {
         const productId = e.getAttribute("data-id");
-        await fetch(
-            `https://wild-gold-calf-robe.cyclic.app/users/addToCart?productId=${productId}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: localStorage.getItem("token"),
-                },
-            }
-        )
+        fetch(`http://localhost:8080/users/addToCart?productId=${productId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: localStorage.getItem("token"),
+            },
+        })
             .then((response) => response.json())
             .then((response) => {
                 if (response.msg === "Login First!") {
@@ -569,6 +562,7 @@
                         toast: true,
                         icon: "warning",
                         title: response.msg,
+
                         position: "bottom",
                         showConfirmButton: false,
                         timer: 2000,
@@ -589,6 +583,7 @@
                         toast: true,
                         icon: "success",
                         title: response.msg,
+
                         position: "bottom",
                         showConfirmButton: false,
                         timer: 2000,
@@ -604,6 +599,10 @@
                             );
                         },
                     });
+                    localStorage.setItem(
+                        "cart",
+                        JSON.stringify(response.user.carts)
+                    );
                     showCartCount();
                 }
             })
@@ -613,14 +612,13 @@
     function scrollFunction1() {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
-
     let count = 8;
     async function sortLowToHigh(e) {
         if (e.checked) {
             let productFlexBox = document.querySelector("#productFlexBox");
             let arr = [];
             await fetch(
-                `https://wild-gold-calf-robe.cyclic.app/products/getLowToHigh/${count}`,
+                `http://localhost:8080/products/getLowToHigh/${count}`,
                 {
                     method: "GET",
                     headers: {
@@ -639,7 +637,7 @@
         } else {
             let productFlexBox = document.querySelector("#productFlexBox");
             let arr = [];
-            await fetch(`https://wild-gold-calf-robe.cyclic.app/products/get/${count}`, {
+            await fetch(`http://localhost:8080/products/get/${count}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -660,7 +658,7 @@
             let productFlexBox = document.querySelector("#productFlexBox");
             let arr = [];
             await fetch(
-                `https://wild-gold-calf-robe.cyclic.app/products/getHighToLow/${count}`,
+                `http://localhost:8080/products/getHighToLow/${count}`,
                 {
                     method: "GET",
                     headers: {
@@ -679,7 +677,7 @@
         } else {
             let productFlexBox = document.querySelector("#productFlexBox");
             let arr = [];
-            await fetch(`https://wild-gold-calf-robe.cyclic.app/products/get/${count}`, {
+            await fetch(`http://localhost:8080/products/get/${count}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -729,7 +727,7 @@
     async function showProducts(count) {
         let productFlexBox = document.querySelector("#productFlexBox");
         let arr = [];
-        await fetch(`https://wild-gold-calf-robe.cyclic.app/products/get/${count}`, {
+        await fetch(`http://localhost:8080/products/get/${count}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

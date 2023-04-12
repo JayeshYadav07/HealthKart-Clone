@@ -44,22 +44,20 @@ userRouter.post("/login", async (req, res) => {
     try {
         const user = await UserModel.findOne({ email });
         if (user) {
-            bcrypt.compare(password, user.password, (error, result) => {
-                if (result) {
-                    const token = jwt.sign(
-                        { userId: user._id },
-                        process.env.tokenKey
-                    );
-                    console.log(token);
-                    res.send({
-                        msg: "User Successfully logged in",
-                        token: token,
-                        user: user,
-                    });
-                } else {
-                    res.send({ error: error });
-                }
-            });
+            const result = await bcrypt.compare(password, user.password);
+            if (result) {
+                const token = jwt.sign(
+                    { userId: user._id },
+                    process.env.tokenKey
+                );
+                res.send({
+                    msg: "User Successfully logged in",
+                    token: token,
+                    user: user,
+                });
+            } else {
+                res.send({ error: error });
+            }
         } else {
             res.send({ msg: "Not able to login ! Please check" });
         }
@@ -83,7 +81,6 @@ userRouter.get("/cart", authenticate, async (req, res) => {
 userRouter.get("/addToCart", authenticate, async (req, res) => {
     const productId = req.query.productId;
     const userId = req.body.userId;
-
     //if this product is already in cart then return error
     const isPresent = await UserModel.findOne({
         _id: userId,
@@ -102,11 +99,11 @@ userRouter.get("/addToCart", authenticate, async (req, res) => {
             discount: response.discount,
             discountedPrice: response.discountedPrice,
         };
-        const user = await UserModel.updateOne(
-            { _id: userId },
-            { $push: { carts: data } }
-        );
-        res.send({ msg: "Product Added to cart successfully" });
+        await UserModel.updateOne({ _id: userId }, { $push: { carts: data } });
+        const user = await UserModel.findOne({
+            _id: userId,
+        });
+        res.send({ msg: "Product Added to cart successfully", user: user });
     }
 });
 

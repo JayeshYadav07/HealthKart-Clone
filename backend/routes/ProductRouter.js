@@ -55,30 +55,6 @@ productRouter.get("/getByid/:id", async (req, res) => {
         res.send({ error: error.message });
     }
 });
-productRouter.get("/priceSlash", async (req, res) => {
-    try {
-        let data = await ProductModel.find().sort({ price: 1 }).limit(4);
-        res.send(data);
-    } catch (error) {
-        res.send({ error: error.message });
-    }
-});
-productRouter.get("/pickDay", async (req, res) => {
-    try {
-        let data = await ProductModel.find().sort({ reviews: 1 }).limit(4);
-        res.send(data);
-    } catch (error) {
-        res.send({ error: error.message });
-    }
-});
-productRouter.get("/topDeals", async (req, res) => {
-    try {
-        let data = await ProductModel.find().sort({ discount: -1 }).limit(4);
-        res.send(data);
-    } catch (error) {
-        res.send({ error: error.message });
-    }
-});
 
 module.exports = {
     productRouter,
