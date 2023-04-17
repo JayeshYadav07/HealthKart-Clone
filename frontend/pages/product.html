@@ -104,6 +104,107 @@
                 color: rgb(0, 216, 244) !important;
                 border: 1px solid rgb(239, 230, 230);
             }
+            @media only screen and (min-width: 1000px) and (max-width: 1300px) {
+                #productFlexBox > .card {
+                    font-size: 16px;
+                }
+                #footer-details > ul {
+                    font-size: 14px !important;
+                }
+            }
+            @media only screen and (min-width: 700px) and (max-width: 999px) {
+                #productFlexBox > .card {
+                    font-size: 14px;
+                }
+                .premiumContainer {
+                    font-size: 12px;
+                }
+                #footer-details > ul {
+                    font-size: 12px !important;
+                }
+            }
+            @media only screen and (max-width: 749px) {
+                * {
+                    line-height: 16px;
+                    box-sizing: border-box;
+                }
+                #login_container {
+                    display: none;
+                }
+                #search_bar {
+                    width: 200px;
+                    line-height: 10px;
+                    padding: 0;
+                }
+                #search_bar > img {
+                    display: none;
+                }
+                #productContainer > h1 {
+                    font-size: 14px;
+                }
+                footer {
+                    display: none;
+                }
+                #singleLineFilter {
+                    font-size: 10px !important;
+                }
+                #priceTitle {
+                    margin-right: 5px;
+                }
+                .title {
+                    height: 50px;
+                    overflow: hidden;
+                }
+                .cardImgContainer {
+                    padding: 10px;
+                }
+                .cardImgContainer > img {
+                    width: 80px;
+                }
+                .priceContainer > span:nth-child(1) {
+                    font-size: 10px !important;
+                }
+                #productFlexBox > .card {
+                    width: 45%;
+                }
+                #productFlexBox > .card {
+                    font-size: 10px;
+                }
+                .premiumText,
+                .off,
+                .rating > img {
+                    display: none;
+                }
+                .rating {
+                    font-size: 10px !important;
+                }
+                .addToCartBtnContainer {
+                    padding: 2px 1px;
+                }
+            }
+            @media only screen and (min-width: 750px) and (max-width: 1300px) {
+                header {
+                    justify-content: space-evenly;
+                }
+                #productFlexBox {
+                    gap: 5px;
+                }
+                #productFlexBox > .card {
+                    width: 31%;
+                }
+                footer {
+                    font-size: 1rem;
+                }
+                #footer-details {
+                    width: 100%;
+                }
+                #footer-links {
+                    display: none;
+                }
+                #top {
+                    display: none;
+                }
+            }
         </style>
     </head>
     <body>
@@ -111,7 +212,7 @@
             <header>
                 <div id="logo_container">
                     <a href="../index.html"
-                        ><img src="../images/logo.png" width="230px" alt="logo"
+                        ><img src="../images/logo.png" width="70%" alt="logo"
                     /></a>
                 </div>
                 <div id="search_bar">
@@ -718,12 +819,12 @@
             <div class="priceContainer">
                 <span>₹${obj.discountedPrice}</span>
                 <span>₹${obj.price}</span>
-                <span>${obj.discount}% off</span>
+                <span class="off">${obj.discount}% off</span>
             </div>
             <div class="premiumContainer">
                 <img src="../images/star.png" width="18px" alt="" />
                     <span>₹${obj.premiumPrice}</span>
-                <span>for Premium Member</span>
+                <span class="premiumText">for Premium Member</span>
             </div>
             <div class="addToCartBtnContainer" data-id="${obj._id}" onClick="addToCart(this)">
                 <span>Add To Cart</span>
