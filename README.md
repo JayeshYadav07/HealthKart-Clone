@@ -29,6 +29,10 @@ To get started with the FitnessBazzar, follow these steps:
 3. Start the development server using `npm start`.
 4. Access the application at `http://localhost:8080`.
 
+## Deployment
+1. Frontend : [https://clone-healthkart.netlify.app/index.html](https://clone-healthkart.netlify.app/index.html)
+2. Backend : [https://wild-gold-calf-robe.cyclic.app](https://wild-gold-calf-robe.cyclic.app)
+
 ## Conclusion
 
 The FitnessBazzar aims to provide a similar platform for consumers to access high-quality health and wellness products. With its intuitive user interface and comprehensive features, the clone offers a convenient and reliable platform for users to shop for their health and wellness needs.
