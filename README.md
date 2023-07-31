@@ -17,8 +17,8 @@ The FitnessBazzar offers the following features:
 The FitnessBazzar is built using the following technologies:
 
 - Front-end: HTML, CSS, JavaScript
-- Back-end: Node.js, Express.js 
-- Database: MongoDB 
+- Back-end: Node.js, Express.js
+- Database: MongoDB
 
 ## Getting Started
 
@@ -30,8 +30,9 @@ To get started with the FitnessBazzar, follow these steps:
 4. Access the application at `http://localhost:8080`.
 
 ## Deployment
+
 1. Frontend : [https://clone-healthkart.netlify.app/index.html](https://clone-healthkart.netlify.app/index.html)
-2. Backend : [https://wild-gold-calf-robe.cyclic.app](https://wild-gold-calf-robe.cyclic.app)
+2. Backend : [https://healthkartapi.onrender.com](https://healthkartapi.onrender.com)
 
 ## Conclusion
 
